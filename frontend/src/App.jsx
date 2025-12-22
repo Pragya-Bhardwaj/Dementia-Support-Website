@@ -20,6 +20,7 @@ function App() {
         <Route path="/self-care" element={<SelfCare />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/map" element={<MapLocation />} />
+        
       </Routes>
     </BrowserRouter>
   );
