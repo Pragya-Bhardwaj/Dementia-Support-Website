@@ -1,71 +1,83 @@
-import Navbar from "../components/Navbar";
-import useReminderStore from "../context/useReminderStore";
+import PatientNavbar from "../components/PatientNavbar";
 import useMemoryStore from "../context/useMemoryStore";
+import useReminderStore from "../context/useReminderStore";
 
 export default function PatientDashboard() {
+  const memories = useMemoryStore((state) => state.memories);
   const reminders = useReminderStore((state) => state.reminders);
   const toggleReminder = useReminderStore((state) => state.toggleReminder);
 
-  const memories = useMemoryStore((state) => state.memories);
-
   return (
     <>
-      <Navbar />
+      <PatientNavbar />
 
       <div className="container mt-4">
 
-        {/* Greeting */}
-        <h2 className="mb-3">Welcome back 🧠💙</h2>
-        <p className="text-muted">We’re here to help you remember today.</p>
-
-        {/* Today’s Reminders */}
-        <div className="card p-3 mb-4 shadow-sm">
-          <h4 className="mb-3">Today's Reminders</h4>
-
-          {reminders.map((rem) => (
-            <div key={rem.id} className="d-flex align-items-center mb-2">
-              <input
-                type="checkbox"
-                checked={rem.done}
-                onChange={() => toggleReminder(rem.id)}
-                className="form-check-input me-2"
-              />
-              <span>
-                <strong>{rem.type}</strong> at {rem.time}
-              </span>
-            </div>
-          ))}
+        {/* Gentle Greeting */}
+        <div className="mb-4">
+          <h2 className="fw-bold">Hello 👋</h2>
+          <p className="text-muted fs-5">
+            Let’s look at some familiar things today.
+          </p>
         </div>
 
-        {/* Memory Board Preview */}
-        <div className="card p-3 mb-4 shadow-sm">
-          <h4 className="mb-3">People & Places You Know</h4>
+        {/* MEMORY BOARD — SHOWN FIRST */}
+        <div className="card p-4 shadow-sm mb-4">
+          <h3 className="mb-3 text-primary">Your Memory Board</h3>
 
-          <div className="d-flex gap-3">
-            {memories.slice(0, 2).map((mem) => (
-              <div key={mem.id} className="text-center">
+          <div className="d-flex flex-wrap gap-4 justify-content-start">
+            {memories.map((mem) => (
+              <div
+                key={mem.id}
+                className="text-center"
+                style={{ width: "160px" }}
+              >
                 <img
                   src={mem.img}
                   alt={mem.label}
-                  width="120"
-                  height="120"
                   className="rounded shadow"
+                  width="150"
+                  height="150"
                   style={{ objectFit: "cover" }}
                 />
-                <p className="mt-2">{mem.label}</p>
+                <p className="mt-2 fs-5">{mem.label}</p>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Self Care Tips */}
-        <div className="card p-3 shadow-sm">
-          <h4>Take Care of Yourself 🌿</h4>
-          <ul className="mt-2">
-            <li>Breathe slowly for 10 seconds</li>
-            <li>Drink some water</li>
-            <li>Take a short walk</li>
-            <li>Listen to soft music</li>
+        {/* REMINDERS */}
+        <div className="card p-4 shadow-sm mb-4">
+          <h3 className="mb-3 text-success">Today’s Reminders</h3>
+
+          {reminders.map((r) => (
+            <div
+              key={r.id}
+              className="d-flex align-items-center mb-3 fs-5"
+            >
+              <input
+                type="checkbox"
+                checked={r.done}
+                onChange={() => toggleReminder(r.id)}
+                className="form-check-input me-3"
+                style={{ transform: "scale(1.5)" }}
+              />
+              <span>
+                {r.type} at {r.time}
+              </span>
+            </div>
+          ))}
+        </div>
+
+        {/* SELF CARE */}
+        <div className="card p-4 shadow-sm mb-5">
+          <h3 className="mb-3 text-info">Take Care 🌿</h3>
+
+          <ul className="fs-5">
+            <li>Take 5 slow breaths</li>
+            <li>Drink a glass of water</li>
+            <li>Listen to calm music</li>
+            <li>Rest for a few minutes</li>
           </ul>
         </div>
 

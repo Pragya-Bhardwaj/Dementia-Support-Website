@@ -7,6 +7,7 @@ import Reminders from "./pages/Reminders";
 import SelfCare from "./pages/SelfCare";
 import Profile from "./pages/Profile";
 import MapLocation from "./pages/MapLocation";
+import Medication from "./pages/Medication";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/self-care" element={<SelfCare />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/map" element={<MapLocation />} />
+        <Route path="/medication" element={<Medication />} />
         
       </Routes>
     </BrowserRouter>
