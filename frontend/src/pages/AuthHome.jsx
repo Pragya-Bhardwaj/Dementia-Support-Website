@@ -1,28 +1,40 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import "../styles/auth.css";
 
 export default function AuthHome() {
+  const navigate = useNavigate();
+
   return (
-    <div className="container mt-5 text-center">
-      <h2 className="fw-bold mb-4">Welcome</h2>
+    <div className="auth-container">
+      <div className="auth-card text-center">
+        <div className="logo-circle">🧠</div>
 
-      <div className="card p-4 shadow rounded-4 mx-auto" style={{ maxWidth: 400 }}>
-        <Link to="/login-caregiver" className="btn btn-primary w-100 mb-2">
-          Caregiver Login
-        </Link>
+        <h1 className="title">Dementia Aid</h1>
+        <p className="subtitle">We're here to help you remember</p>
 
-        <Link to="/login-patient" className="btn btn-success w-100 mb-2">
-          Patient Login
-        </Link>
+        <h3 className="section-title">Choose Your Role</h3>
 
-        <hr />
+        <div
+          className="role-box"
+          onClick={() => navigate("/login-patient")}
+        >
+          <span className="role-icon">💙</span>
+          <div>
+            <strong>Patient Login</strong>
+            <p>Access your memory board and reminders</p>
+          </div>
+        </div>
 
-        <Link to="/signup-caregiver" className="btn btn-outline-primary w-100 mb-2">
-          Caregiver Sign Up
-        </Link>
-
-        <Link to="/signup-patient" className="btn btn-outline-success w-100">
-          Patient Sign Up
-        </Link>
+        <div
+          className="role-box"
+          onClick={() => navigate("/login-caregiver")}
+        >
+          <span className="role-icon">👤</span>
+          <div>
+            <strong>Caregiver Login</strong>
+            <p>Manage care and support your loved one</p>
+          </div>
+        </div>
       </div>
     </div>
   );
