@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import useMemoryStore from "../context/useMemoryStore";
 import useReminderStore from "../context/useReminderStore";
@@ -9,10 +8,6 @@ export default function PatientDashboard() {
   const reminders = useReminderStore((state) => state.reminders);
   const toggleReminder = useReminderStore((state) => state.toggleReminder);
   const logout = useAuthStore((state) => state.logout);
-
-  useEffect(() => {
-    localStorage.setItem("lastActiveDate", Date.now());
-  }, []);
 
   return (
     <div className="container-fluid">
