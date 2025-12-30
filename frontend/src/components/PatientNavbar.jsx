@@ -11,33 +11,18 @@ export default function PatientNavbar() {
   };
 
   return (
-    <nav className="navbar navbar-light bg-white shadow-sm px-4 py-3">
+    <nav className="navbar navbar-expand-lg bg-white shadow-sm px-4">
       <span className="navbar-brand fw-bold fs-4 text-primary">
         Dementia Aid
       </span>
 
-      <div className="d-flex gap-3">
-        <Link className="btn btn-outline-primary" to="/memory-board">
-          Memory
-        </Link>
-
-        <Link className="btn btn-outline-success" to="/reminders">
-          Reminders
-        </Link>
-
-        <Link className="btn btn-outline-warning" to="/medication">
-          Medication
-        </Link>
-
-        <Link className="btn btn-outline-info" to="/self-care">
-          Self Care
-        </Link>
-
-        <Link className="btn btn-outline-dark" to="/profile">
-          Profile
-        </Link>
-
-        <button className="btn btn-danger" onClick={handleLogout}>
+      <div className="ms-auto d-flex gap-3">
+        <Link className="nav-link fs-5" to="/memory-board">Memory</Link>
+        <Link className="nav-link fs-5" to="/reminders">Reminders</Link>
+        <Link className="nav-link fs-5" to="/medication">Medication</Link>
+        <Link className="nav-link fs-5" to="/self-care">Self Care</Link>
+        <Link className="nav-link fs-5" to="/profile">Profile</Link>
+        <button className="btn btn-outline-danger" onClick={handleLogout}>
           Logout
         </button>
       </div>
