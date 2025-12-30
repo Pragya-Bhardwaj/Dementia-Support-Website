@@ -1,6 +1,10 @@
 import { Link } from "react-router-dom";
-
+import { useEffect } from "react";
 export default function CaregiverDashboard() {
+  useEffect(() => {
+    localStorage.setItem("lastActiveDate", Date.now());
+  }, []);
+
   return (
     <div className="container-fluid">
       <div className="row">

@@ -1,28 +1,52 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from "./pages/Login";
-import PatientDashboard from "./pages/PatientDashboard";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { checkAuthState } from "./utils/authCheck";
+
+import AuthHome from "./pages/AuthHome";
+import LoginCaregiver from "./pages/LoginCaregiver";
+import LoginPatient from "./pages/LoginPatient";
+import SignupCaregiver from "./pages/SignupCaregiver";
+import SignupPatient from "./pages/SignupPatient";
+
 import CaregiverDashboard from "./pages/CaregiverDashboard";
-import MemoryBoard from "./pages/MemoryBoard";
-import Reminders from "./pages/Reminders";
-import SelfCare from "./pages/SelfCare";
-import Profile from "./pages/Profile";
-import MapLocation from "./pages/MapLocation";
-import Medication from "./pages/Medication";
+import PatientDashboard from "./pages/PatientDashboard";
 
 function App() {
+  const auth = checkAuthState();
+
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/patient" element={<PatientDashboard />} />
-        <Route path="/caregiver" element={<CaregiverDashboard />} />
-        <Route path="/memory-board" element={<MemoryBoard />} />
-        <Route path="/reminders" element={<Reminders />} />
-        <Route path="/self-care" element={<SelfCare />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/map" element={<MapLocation />} />
-        <Route path="/medication" element={<Medication />} />
-        
+
+        {/* ENTRY POINT */}
+        <Route
+          path="/"
+          element={
+            auth.state === "LOGGED_IN" ? (
+              auth.role === "caregiver" ? (
+                <Navigate to="/caregiver-dashboard" replace />
+              ) : (
+                <Navigate to="/patient-dashboard" replace />
+              )
+            ) : (
+              <Navigate to="/auth" replace />
+            )
+          }
+        />
+
+        {/* AUTH PAGES */}
+        <Route path="/auth" element={<AuthHome />} />
+        <Route path="/login-caregiver" element={<LoginCaregiver />} />
+        <Route path="/login-patient" element={<LoginPatient />} />
+        <Route path="/signup-caregiver" element={<SignupCaregiver />} />
+        <Route path="/signup-patient" element={<SignupPatient />} />
+
+        {/* DASHBOARDS */}
+        <Route path="/caregiver-dashboard" element={<CaregiverDashboard />} />
+        <Route path="/patient-dashboard" element={<PatientDashboard />} />
+
+        {/* FALLBACK — VERY IMPORTANT */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+
       </Routes>
     </BrowserRouter>
   );

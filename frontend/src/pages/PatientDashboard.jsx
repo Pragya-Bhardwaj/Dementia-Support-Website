@@ -1,87 +1,147 @@
-import PatientNavbar from "../components/PatientNavbar";
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import useMemoryStore from "../context/useMemoryStore";
 import useReminderStore from "../context/useReminderStore";
+import useAuthStore from "../context/useAuthStore";
 
 export default function PatientDashboard() {
   const memories = useMemoryStore((state) => state.memories);
   const reminders = useReminderStore((state) => state.reminders);
   const toggleReminder = useReminderStore((state) => state.toggleReminder);
+  const logout = useAuthStore((state) => state.logout);
+
+  useEffect(() => {
+    localStorage.setItem("lastActiveDate", Date.now());
+  }, []);
 
   return (
-    <>
-      <PatientNavbar />
+    <div className="container-fluid">
+      <div className="row">
 
-      <div className="container mt-4">
+        {/* SIDEBAR */}
+        <div className="col-md-2 bg-white border-end min-vh-100 p-3">
+          <h5 className="fw-bold text-primary mb-4">
+            Dementia Aid
+          </h5>
 
-        {/* Gentle Greeting */}
-        <div className="mb-4">
-          <h2 className="fw-bold">Hello 👋</h2>
-          <p className="text-muted fs-5">
-            Let’s look at some familiar things today.
-          </p>
-        </div>
-
-        {/* MEMORY BOARD — SHOWN FIRST */}
-        <div className="card p-4 shadow-sm mb-4">
-          <h3 className="mb-3 text-primary">Your Memory Board</h3>
-
-          <div className="d-flex flex-wrap gap-4 justify-content-start">
-            {memories.map((mem) => (
-              <div
-                key={mem.id}
-                className="text-center"
-                style={{ width: "160px" }}
-              >
-                <img
-                  src={mem.img}
-                  alt={mem.label}
-                  className="rounded shadow"
-                  width="150"
-                  height="150"
-                  style={{ objectFit: "cover" }}
-                />
-                <p className="mt-2 fs-5">{mem.label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* REMINDERS */}
-        <div className="card p-4 shadow-sm mb-4">
-          <h3 className="mb-3 text-success">Today’s Reminders</h3>
-
-          {reminders.map((r) => (
-            <div
-              key={r.id}
-              className="d-flex align-items-center mb-3 fs-5"
-            >
-              <input
-                type="checkbox"
-                checked={r.done}
-                onChange={() => toggleReminder(r.id)}
-                className="form-check-input me-3"
-                style={{ transform: "scale(1.5)" }}
-              />
-              <span>
-                {r.type} at {r.time}
+          <ul className="nav flex-column gap-2 fw-bold">
+            <li className="nav-item">
+              <span className="nav-link active bg-primary text-white rounded-pill">
+                Dashboard
               </span>
-            </div>
-          ))}
-        </div>
+            </li>
 
-        {/* SELF CARE */}
-        <div className="card p-4 shadow-sm mb-5">
-          <h3 className="mb-3 text-info">Take Care 🌿</h3>
+            <li className="nav-item">
+              <Link className="nav-link text-dark" to="/memory-board">
+                Memory Board
+              </Link>
+            </li>
 
-          <ul className="fs-5">
-            <li>Take 5 slow breaths</li>
-            <li>Drink a glass of water</li>
-            <li>Listen to calm music</li>
-            <li>Rest for a few minutes</li>
+            <li className="nav-item">
+              <Link className="nav-link text-dark" to="/reminders">
+                Reminders
+              </Link>
+            </li>
+
+            <li className="nav-item">
+              <Link className="nav-link text-dark" to="/medication">
+                Medication
+              </Link>
+            </li>
+
+            <li className="nav-item">
+              <Link className="nav-link text-dark" to="/self-care">
+                Self Care
+              </Link>
+            </li>
+
+            <li className="nav-item">
+              <Link className="nav-link text-dark" to="/profile">
+                Profile
+              </Link>
+            </li>
+
+            <li className="nav-item mt-4">
+              <button
+                className="btn btn-outline-danger w-100 fw-bold"
+                onClick={logout}
+              >
+                Logout
+              </button>
+            </li>
           </ul>
         </div>
 
+        {/* MAIN CONTENT */}
+        <div className="col-md-10 bg-light p-4">
+
+          {/* WELCOME CARD */}
+          <div
+            className="rounded-4 p-4 mb-4 text-white fw-bold"
+            style={{
+              background: "linear-gradient(90deg, #6a9cff, #b9a6ff)",
+            }}
+          >
+            <h6 className="fw-bold">Welcome Back</h6>
+            <h3 className="fw-bold mt-1">
+              Take your time. Everything is okay.
+            </h3>
+            <small className="fw-bold">
+              One step at a time 💙
+            </small>
+          </div>
+
+          {/* MEMORY BOARD — FIRST */}
+          <h4 className="fw-bold mb-3">
+            Memory Board
+          </h4>
+
+          <div className="row mb-4">
+            {memories.map((m) => (
+              <div key={m.id} className="col-md-3 mb-3">
+                <div className="card rounded-4 shadow-sm p-3 text-center fw-bold">
+                  <img
+                    src={m.img}
+                    alt={m.label}
+                    className="rounded-3 mb-2"
+                    height="130"
+                    style={{ objectFit: "cover" }}
+                  />
+                  <div>{m.label}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* REMINDERS */}
+          <h4 className="fw-bold mb-3">
+            Today’s Reminders
+          </h4>
+
+          <div className="row">
+            {reminders.map((r) => (
+              <div key={r.id} className="col-md-4 mb-3">
+                <div className="card rounded-4 p-3 shadow-sm d-flex flex-row align-items-center fw-bold">
+                  <input
+                    type="checkbox"
+                    checked={r.done}
+                    onChange={() => toggleReminder(r.id)}
+                    className="form-check-input me-3"
+                    style={{ transform: "scale(1.4)" }}
+                  />
+                  <div>
+                    <div>{r.type}</div>
+                    <small className="text-muted fw-bold">
+                      {r.time}
+                    </small>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+        </div>
       </div>
-    </>
+    </div>
   );
 }
